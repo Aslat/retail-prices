@@ -8,11 +8,11 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "PRICES")
-public class Price {
+public class PriceEntity {
 
     @ManyToOne
     @JoinColumn(name = "BRAND_ID", nullable = false)
-    private Brand brand;
+    private BrandEntity brand;
     @Column(name = "START_DATE")
     private LocalDateTime startDate;
     @Column(name = "END_DATE")
