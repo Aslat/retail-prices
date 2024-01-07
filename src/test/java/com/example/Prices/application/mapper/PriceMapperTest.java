@@ -31,9 +31,7 @@ class PriceMapperTest {
     @Test
     public void toPriceResponseWhenSimpleCase(){
         //GIVEN
-        Price price = Price.builder().build();
-        price.setProductId(1L);
-
+        Price price = Price.builder().productId(1L).build();
 
         //WHEN
         PriceResponse result = priceMapper.toPriceResponse(price);
