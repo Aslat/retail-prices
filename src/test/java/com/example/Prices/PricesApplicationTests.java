@@ -1,13 +1,62 @@
 package com.example.Prices;
 
-import org.junit.jupiter.api.Test;
+import com.example.Prices.application.request.PriceRequest;
+import com.example.Prices.application.response.PriceResponse;
+import com.example.Prices.application.rest.PriceController;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.time.LocalDateTime;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class PricesApplicationTests {
 
-	@Test
-	void contextLoads() {
+	@Autowired
+	private PriceController priceController;
+
+	private static Stream<Arguments> provideTestPrices() {
+		return Stream.of(
+				Arguments.of(LocalDateTime.of(2020,6,14,10, 0), 35.5, 1L),
+				Arguments.of(LocalDateTime.of(2020,6,14,16, 0), 25.45, 2L),
+				Arguments.of(LocalDateTime.of(2020,6,14,21, 0), 35.5, 1L),
+				Arguments.of(LocalDateTime.of(2020,6,15,10, 0), 30.5, 3L),
+				Arguments.of(LocalDateTime.of(2020,6,16,21, 0), 38.95, 4L)
+		);
 	}
 
+	@ParameterizedTest
+	@MethodSource("provideTestPrices")
+	void getPriceIntegrationTest(LocalDateTime appDate, Double price, Long priceList) {
+		//GIVEN
+		Long brandId = 1L;
+		Long productId = 35455L;
+
+		PriceRequest priceRequest = PriceRequest.builder()
+				.brandId(brandId)
+				.productId(productId)
+				.appDate(appDate).build();
+
+		//WHEN
+		ResponseEntity<PriceResponse> priceResponseEntity = priceController.getPrice(priceRequest);
+
+		//THEN
+		assertEquals(HttpStatus.OK, priceResponseEntity.getStatusCode());
+		assertNotNull(priceResponseEntity.getBody());
+
+		PriceResponse priceResponse = priceResponseEntity.getBody();
+		assertEquals(priceResponse.getBrandId(), brandId);
+		assertEquals(priceResponse.getProductId(), productId);
+		assertTrue(priceResponse.getStartDate().isBefore(appDate));
+		assertTrue(priceResponse.getEndDate().isAfter(appDate));
+		assertEquals(priceResponse.getPrice(), price);
+		assertEquals(priceResponse.getPriceList(), priceList);
+	}
 }
