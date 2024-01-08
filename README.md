@@ -93,4 +93,4 @@ To run the project we can execute
 mvn spring-boot:run
 ```
 And then we can use [Postman](https://www.postman.com/downloads/) to create a new request to the endpoint
-![Postman Screenshot](Captura de pantalla 2024-01-08 163545.png)
+![Postman Screenshot](https://github.com/Aslat/retail-prices/blob/main/Captura%20de%20pantalla%202024-01-08%20163545.png)
