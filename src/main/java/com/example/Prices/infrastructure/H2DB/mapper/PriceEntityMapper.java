@@ -31,6 +31,7 @@ public class PriceEntityMapper {
                 .price(priceEntity.getPrice())
                 .productId(priceEntity.getProductId())
                 .startDate(priceEntity.getStartDate())
+                .priority(priceEntity.getPriority())
                 .build();
     }
 }

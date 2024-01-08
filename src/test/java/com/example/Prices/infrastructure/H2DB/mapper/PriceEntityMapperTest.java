@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,6 +46,12 @@ class PriceEntityMapperTest {
         PriceEntity priceEntity = new PriceEntity();
         priceEntity.setBrand(brand);
         priceEntity.setProductId(10L);
+        priceEntity.setPriceList(20L);
+        priceEntity.setPrice(12.3);
+        priceEntity.setCurr("EUR");
+        priceEntity.setPriority(3);
+        priceEntity.setStartDate(LocalDateTime.now().minusDays(1));
+        priceEntity.setEndDate(LocalDateTime.now().plusDays(1));
         List<PriceEntity> priceEntityList = List.of(priceEntity);
 
 
@@ -55,5 +62,10 @@ class PriceEntityMapperTest {
         Assertions.assertEquals(1, result.size());
         Assertions.assertEquals(priceEntity.getProductId(), result.get(0).getProductId());
         Assertions.assertEquals(brand.getId(), result.get(0).getBrandId());
+        Assertions.assertEquals(priceEntity.getPriceList(), result.get(0).getPriceList());
+        Assertions.assertEquals(priceEntity.getPrice(), result.get(0).getPrice());
+        Assertions.assertEquals(priceEntity.getPriority(), result.get(0).getPriority());
+        Assertions.assertEquals(priceEntity.getStartDate(), result.get(0).getStartDate());
+        Assertions.assertEquals(priceEntity.getEndDate(), result.get(0).getEndDate());
     }
 }
