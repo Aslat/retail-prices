@@ -1,8 +1,7 @@
 package com.example.Prices;
 
-import com.example.Prices.infrastructure.rest.request.PriceRequest;
-import com.example.Prices.infrastructure.rest.response.PriceResponse;
 import com.example.Prices.infrastructure.rest.PriceController;
+import com.example.Prices.infrastructure.rest.response.PriceResponse;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -39,13 +38,8 @@ class PricesApplicationTests {
 		Long brandId = 1L;
 		Long productId = 35455L;
 
-		PriceRequest priceRequest = PriceRequest.builder()
-				.brandId(brandId)
-				.productId(productId)
-				.appDate(appDate).build();
-
 		//WHEN
-		ResponseEntity<PriceResponse> priceResponseEntity = priceController.getPrice(priceRequest);
+		ResponseEntity<PriceResponse> priceResponseEntity = priceController.getPrice(brandId, productId, appDate);
 
 		//THEN
 		assertEquals(HttpStatus.OK, priceResponseEntity.getStatusCode());

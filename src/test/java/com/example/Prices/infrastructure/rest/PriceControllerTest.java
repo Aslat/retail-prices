@@ -1,10 +1,9 @@
 package com.example.Prices.infrastructure.rest;
 
-import com.example.Prices.infrastructure.rest.mapper.PriceMapper;
-import com.example.Prices.infrastructure.rest.request.PriceRequest;
-import com.example.Prices.infrastructure.rest.response.PriceResponse;
 import com.example.Prices.domain.entity.Price;
 import com.example.Prices.domain.usecase.GetPriceUseCase;
+import com.example.Prices.infrastructure.rest.mapper.PriceMapper;
+import com.example.Prices.infrastructure.rest.response.PriceResponse;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -32,25 +31,24 @@ class PriceControllerTest {
     @Test
     public void getPrice(){
         //GIVEN
-        PriceRequest priceRequest = PriceRequest.builder()
-                .productId(1L)
-                .brandId(1L)
-                .appDate(LocalDateTime.now())
-                .build();
+        final Long brandId = 1L;
+        final Long productId = 1L;
+        final LocalDateTime appDate = LocalDateTime.now();
+
         Price price = Price.builder().build();
         PriceResponse priceResponse = PriceResponse.builder().build();
 
-        given(getPriceUseCase.getPrice(priceRequest.getBrandId(), priceRequest.getProductId(), priceRequest.getAppDate()))
+        given(getPriceUseCase.getPrice(brandId, productId, appDate))
                 .willReturn(price);
         given(priceMapper.toPriceResponse(price)).willReturn(priceResponse);
 
         //WHEN
-        ResponseEntity<PriceResponse> response = priceController.getPrice(priceRequest);
+        ResponseEntity<PriceResponse> response = priceController.getPrice(brandId, productId , appDate);
 
         //THEN
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        then(getPriceUseCase).should().getPrice(priceRequest.getBrandId(), priceRequest.getProductId(), priceRequest.getAppDate());
+        then(getPriceUseCase).should().getPrice(brandId, productId, appDate);
         then(priceMapper).should().toPriceResponse(price);
     }
 
