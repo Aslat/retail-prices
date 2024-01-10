@@ -1,7 +1,7 @@
-package com.example.Prices.application.mapper;
+package com.example.Prices.infrastructure.rest.mapper;
 
 
-import com.example.Prices.application.response.PriceResponse;
+import com.example.Prices.infrastructure.rest.response.PriceResponse;
 import com.example.Prices.domain.entity.Price;
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,8 @@
 package com.example.Prices;
 
-import com.example.Prices.application.request.PriceRequest;
-import com.example.Prices.application.response.PriceResponse;
-import com.example.Prices.application.rest.PriceController;
+import com.example.Prices.infrastructure.rest.request.PriceRequest;
+import com.example.Prices.infrastructure.rest.response.PriceResponse;
+import com.example.Prices.infrastructure.rest.PriceController;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

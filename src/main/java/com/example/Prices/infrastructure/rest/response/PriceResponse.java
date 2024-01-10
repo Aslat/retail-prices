@@ -1,4 +1,4 @@
-package com.example.Prices.application.response;
+package com.example.Prices.infrastructure.rest.response;
 
 import lombok.Builder;
 import lombok.Data;

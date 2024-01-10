@@ -1,4 +1,4 @@
-package com.example.Prices.domain.service;
+package com.example.Prices.application;
 
 import com.example.Prices.domain.entity.Price;
 import com.example.Prices.domain.repository.PriceRepository;
@@ -16,10 +16,10 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @SpringBootTest
-class PriceServiceImplTest {
+class PriceServiceTest {
 
     @InjectMocks
-    PriceServiceImpl priceService;
+    PriceService priceService;
 
     @Mock
     PriceRepository priceRepository;

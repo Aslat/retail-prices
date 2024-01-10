@@ -1,6 +1,7 @@
-package com.example.Prices.application.mapper;
+package com.example.Prices.infrastructure.rest.mapper;
 
-import com.example.Prices.application.response.PriceResponse;
+import com.example.Prices.infrastructure.rest.mapper.PriceMapper;
+import com.example.Prices.infrastructure.rest.response.PriceResponse;
 import com.example.Prices.domain.entity.Price;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

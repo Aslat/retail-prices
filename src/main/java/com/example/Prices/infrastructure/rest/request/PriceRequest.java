@@ -1,4 +1,4 @@
-package com.example.Prices.application.request;
+package com.example.Prices.infrastructure.rest.request;
 
 import lombok.Builder;
 import lombok.Data;

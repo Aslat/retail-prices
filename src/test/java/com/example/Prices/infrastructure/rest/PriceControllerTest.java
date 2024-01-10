@@ -1,10 +1,10 @@
-package com.example.Prices.application.rest;
+package com.example.Prices.infrastructure.rest;
 
-import com.example.Prices.application.mapper.PriceMapper;
-import com.example.Prices.application.request.PriceRequest;
-import com.example.Prices.application.response.PriceResponse;
+import com.example.Prices.infrastructure.rest.mapper.PriceMapper;
+import com.example.Prices.infrastructure.rest.request.PriceRequest;
+import com.example.Prices.infrastructure.rest.response.PriceResponse;
 import com.example.Prices.domain.entity.Price;
-import com.example.Prices.domain.service.PriceService;
+import com.example.Prices.domain.usecase.GetPriceUseCase;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -25,7 +25,7 @@ class PriceControllerTest {
     PriceController priceController;
 
     @Mock
-    PriceService priceService;
+    GetPriceUseCase getPriceUseCase;
     @Mock
     PriceMapper priceMapper;
 
@@ -40,7 +40,7 @@ class PriceControllerTest {
         Price price = Price.builder().build();
         PriceResponse priceResponse = PriceResponse.builder().build();
 
-        given(priceService.getPrice(priceRequest.getBrandId(), priceRequest.getProductId(), priceRequest.getAppDate()))
+        given(getPriceUseCase.getPrice(priceRequest.getBrandId(), priceRequest.getProductId(), priceRequest.getAppDate()))
                 .willReturn(price);
         given(priceMapper.toPriceResponse(price)).willReturn(priceResponse);
 
@@ -50,7 +50,7 @@ class PriceControllerTest {
         //THEN
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        then(priceService).should().getPrice(priceRequest.getBrandId(), priceRequest.getProductId(), priceRequest.getAppDate());
+        then(getPriceUseCase).should().getPrice(priceRequest.getBrandId(), priceRequest.getProductId(), priceRequest.getAppDate());
         then(priceMapper).should().toPriceResponse(price);
     }
 
