@@ -2,6 +2,7 @@ package com.example.Prices.infrastructure.rest;
 
 import com.example.Prices.domain.entity.Price;
 import com.example.Prices.domain.usecase.GetPriceUseCase;
+import com.example.Prices.infrastructure.rest.exceptionhandler.PriceNotFoundException;
 import com.example.Prices.infrastructure.rest.mapper.PriceMapper;
 import com.example.Prices.infrastructure.rest.response.PriceResponse;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -52,4 +54,20 @@ class PriceControllerTest {
         then(priceMapper).should().toPriceResponse(price);
     }
 
+    @Test
+    public void getPriceReturnNotFound(){
+        //GIVEN
+        final Long brandId = 1L;
+        final Long productId = 1L;
+        final LocalDateTime appDate = LocalDateTime.now();
+
+        given(getPriceUseCase.getPrice(brandId, productId, appDate)).willReturn(null);
+
+        //WHEN
+        assertThrows(PriceNotFoundException.class, () -> priceController.getPrice(brandId, productId , appDate));
+
+        //THEN
+        then(getPriceUseCase).should().getPrice(brandId, productId, appDate);
+        then(priceMapper).shouldHaveNoInteractions();
+    }
 }
