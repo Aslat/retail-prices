@@ -1,7 +1,9 @@
 package com.example.Prices;
 
 import com.example.Prices.infrastructure.rest.PriceController;
+import com.example.Prices.infrastructure.rest.exceptionhandler.PriceNotFoundException;
 import com.example.Prices.infrastructure.rest.response.PriceResponse;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -9,11 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 class PricesApplicationTests {
@@ -21,7 +27,7 @@ class PricesApplicationTests {
 	@Autowired
 	private PriceController priceController;
 
-	private static Stream<Arguments> provideTestPrices() {
+    private static Stream<Arguments> provideTestPrices() {
 		return Stream.of(
 				Arguments.of(LocalDateTime.of(2020,6,14,10, 0), 35.5, 1L),
 				Arguments.of(LocalDateTime.of(2020,6,14,16, 0), 25.45, 2L),
@@ -52,5 +58,73 @@ class PricesApplicationTests {
 		assertTrue(priceResponse.getEndDate().isAfter(appDate));
 		assertEquals(priceResponse.getPrice(), price);
 		assertEquals(priceResponse.getPriceList(), priceList);
+	}
+
+	@Test
+	public void getPriceNotFoundIT(){
+		//GIVEN
+		Long brandId = 1L;
+		Long productId = 1L;
+		LocalDateTime appDate = LocalDateTime.now();
+
+		//WHEN
+		assertThrows(PriceNotFoundException.class, () -> priceController.getPrice(brandId, productId , appDate));
+		//THEN
+	}
+
+	@Test
+	public void getPriceBadRequestIT(){
+		//GIVEN
+		Long brandId = 1L;
+		Long productId = 1L;
+		LocalDateTime appDate = LocalDateTime.now();
+
+		//WHEN
+		assertThrows(PriceNotFoundException.class, () -> priceController.getPrice(brandId, productId , appDate));
+		//THEN
+	}
+
+	@Test
+	public void getPriceReturnBadRequest()
+			throws Exception {
+
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(priceController).build();
+
+		String validBrandId = "1";
+		String validProductId = "35455";
+		String validAppDateId = "2020-12-30T23:59:59.000Z";
+
+		mockMvc.perform(get("/price")
+						.param("brandId", "wrongBrandId")
+						.param("productId", validProductId)
+						.param("appDate", validAppDateId))
+				.andExpect(status().isBadRequest());
+
+		mockMvc.perform(get("/price")
+						.param("brandId", validBrandId)
+						.param("productId", "InvalidProductId")
+						.param("appDate", validAppDateId))
+				.andExpect(status().isBadRequest());
+
+		mockMvc.perform(get("/price")
+						.param("brandId", validBrandId)
+						.param("productId", validProductId)
+						.param("appDate", "WrongDate"))
+				.andExpect(status().isBadRequest());
+
+		mockMvc.perform(get("/price")
+						.param("productId", validProductId)
+						.param("appDate", validAppDateId))
+				.andExpect(status().isBadRequest());
+
+		mockMvc.perform(get("/price")
+						.param("brandId", validBrandId)
+						.param("appDate", validAppDateId))
+				.andExpect(status().isBadRequest());
+
+		mockMvc.perform(get("/price")
+						.param("brandId", validBrandId)
+						.param("productId", validProductId))
+				.andExpect(status().isBadRequest());
 	}
 }
