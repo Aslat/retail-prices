@@ -2,7 +2,6 @@ package com.example.Prices.application;
 
 import com.example.Prices.domain.entity.Price;
 import com.example.Prices.domain.repository.PriceRepository;
-import com.example.Prices.domain.usecase.GetPriceUseCase;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

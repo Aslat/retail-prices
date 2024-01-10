@@ -1,4 +1,4 @@
-package com.example.Prices.domain.usecase;
+package com.example.Prices.application;
 
 import com.example.Prices.domain.entity.Price;
 
