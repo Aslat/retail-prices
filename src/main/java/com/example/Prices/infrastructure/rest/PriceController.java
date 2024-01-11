@@ -1,20 +1,20 @@
 package com.example.Prices.infrastructure.rest;
 
-import com.example.Prices.domain.entity.Price;
 import com.example.Prices.application.GetPriceUseCase;
+import com.example.Prices.domain.entity.Price;
 import com.example.Prices.infrastructure.rest.exceptionhandler.PriceNotFoundException;
 import com.example.Prices.infrastructure.rest.mapper.PriceMapper;
 import com.example.Prices.infrastructure.rest.response.PriceResponse;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Controller
+@RestController
 public class PriceController {
     private final GetPriceUseCase getPriceUseCase;
     private final PriceMapper priceMapper;

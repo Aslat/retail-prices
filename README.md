@@ -52,10 +52,12 @@ To run the project we can execute
 ```
 mvn spring-boot:run
 ```
-And then we can use [Postman](https://www.postman.com/downloads/) to create a new request to the endpoint. We can import the next curl.
+The documentation of the API is in the file [api-docs.yaml](api-docs.yaml).
+If we want to see the docs in Swagger, after running the project we can go to http://localhost:8080/swagger-ui/index.html
+
+To test the endpoint, after running the project, we can use [Postman](https://www.postman.com/downloads/) to create a 
+new request to the endpoint. We can import the next curl.
 ```
 curl --location 'http://localhost:8080/price?brandId=1&productId=35455&appDate=2020-12-30T23%3A59%3A59.000Z'
 ```
-
-
 ![Postman Screenshot](https://github.com/Aslat/retail-prices/blob/2d25da71af101c66c08cc80abd4db074c1d11b32/Captura%20de%20pantalla%202024-01-11%20130206.png)
