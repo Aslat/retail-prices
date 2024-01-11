@@ -4,15 +4,15 @@ import com.example.Prices.application.GetPriceUseCase;
 import com.example.Prices.domain.entity.Price;
 import com.example.Prices.infrastructure.rest.exceptionhandler.PriceNotFoundException;
 import com.example.Prices.infrastructure.rest.mapper.PriceMapper;
-import com.example.Prices.infrastructure.rest.response.PriceResponse;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.openapitools.model.PriceResponse;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -35,12 +35,12 @@ class PriceControllerTest {
         //GIVEN
         final Long brandId = 1L;
         final Long productId = 1L;
-        final LocalDateTime appDate = LocalDateTime.now();
+        final OffsetDateTime appDate = OffsetDateTime.now();
 
         Price price = Price.builder().build();
-        PriceResponse priceResponse = PriceResponse.builder().build();
+        PriceResponse priceResponse = new PriceResponse();
 
-        given(getPriceUseCase.getPrice(brandId, productId, appDate))
+        given(getPriceUseCase.getPrice(brandId, productId, appDate.toLocalDateTime()))
                 .willReturn(price);
         given(priceMapper.toPriceResponse(price)).willReturn(priceResponse);
 
@@ -50,7 +50,7 @@ class PriceControllerTest {
         //THEN
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        then(getPriceUseCase).should().getPrice(brandId, productId, appDate);
+        then(getPriceUseCase).should().getPrice(brandId, productId, appDate.toLocalDateTime());
         then(priceMapper).should().toPriceResponse(price);
     }
 
@@ -59,15 +59,15 @@ class PriceControllerTest {
         //GIVEN
         final Long brandId = 1L;
         final Long productId = 1L;
-        final LocalDateTime appDate = LocalDateTime.now();
+        final OffsetDateTime appDate = OffsetDateTime.now();
 
-        given(getPriceUseCase.getPrice(brandId, productId, appDate)).willReturn(null);
+        given(getPriceUseCase.getPrice(brandId, productId, appDate.toLocalDateTime())).willReturn(null);
 
         //WHEN
         assertThrows(PriceNotFoundException.class, () -> priceController.getPrice(brandId, productId , appDate));
 
         //THEN
-        then(getPriceUseCase).should().getPrice(brandId, productId, appDate);
+        then(getPriceUseCase).should().getPrice(brandId, productId, appDate.toLocalDateTime());
         then(priceMapper).shouldHaveNoInteractions();
     }
 }

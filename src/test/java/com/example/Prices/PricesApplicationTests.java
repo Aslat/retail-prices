@@ -2,11 +2,11 @@ package com.example.Prices;
 
 import com.example.Prices.infrastructure.rest.PriceController;
 import com.example.Prices.infrastructure.rest.exceptionhandler.PriceNotFoundException;
-import com.example.Prices.infrastructure.rest.response.PriceResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.openapitools.model.PriceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,19 +47,19 @@ class PricesApplicationTests {
 		Long productId = 35455L;
 
 		//WHEN
-		ResponseEntity<PriceResponse> priceResponseEntity = priceController.getPrice(brandId, productId, appDate);
+		ResponseEntity<PriceResponse> priceResponseEntity = priceController.getPrice(brandId, productId, appDate.atOffset(ZoneOffset.UTC));
 
 		//THEN
 		assertEquals(HttpStatus.OK, priceResponseEntity.getStatusCode());
 		assertNotNull(priceResponseEntity.getBody());
 
 		PriceResponse priceResponse = priceResponseEntity.getBody();
-		assertEquals(priceResponse.getBrandId(), brandId);
-		assertEquals(priceResponse.getProductId(), productId);
-		assertTrue(priceResponse.getStartDate().isBefore(appDate));
-		assertTrue(priceResponse.getEndDate().isAfter(appDate));
-		assertEquals(priceResponse.getPrice(), price);
-		assertEquals(priceResponse.getPriceList(), priceList);
+		assertEquals(brandId, priceResponse.getBrandId());
+		assertEquals(productId, priceResponse.getProductId());
+		assertTrue(priceResponse.getStartDate().isBefore(appDate.atOffset(ZoneOffset.UTC)));
+		assertTrue(priceResponse.getEndDate().isAfter(appDate.atOffset(ZoneOffset.UTC)));
+		assertEquals(price, priceResponse.getPrice());
+		assertEquals(priceList, priceResponse.getPriceList());
 	}
 
 	@Test
@@ -65,7 +67,7 @@ class PricesApplicationTests {
 		//GIVEN
 		Long brandId = 1L;
 		Long productId = 1L;
-		LocalDateTime appDate = LocalDateTime.now();
+		OffsetDateTime appDate = OffsetDateTime.now();
 
 		//WHEN
 		assertThrows(PriceNotFoundException.class, () -> priceController.getPrice(brandId, productId , appDate));
@@ -77,7 +79,7 @@ class PricesApplicationTests {
 		//GIVEN
 		Long brandId = 1L;
 		Long productId = 1L;
-		LocalDateTime appDate = LocalDateTime.now();
+		OffsetDateTime appDate = OffsetDateTime.now();
 
 		//WHEN
 		assertThrows(PriceNotFoundException.class, () -> priceController.getPrice(brandId, productId , appDate));

@@ -4,18 +4,16 @@ import com.example.Prices.application.GetPriceUseCase;
 import com.example.Prices.domain.entity.Price;
 import com.example.Prices.infrastructure.rest.exceptionhandler.PriceNotFoundException;
 import com.example.Prices.infrastructure.rest.mapper.PriceMapper;
-import com.example.Prices.infrastructure.rest.response.PriceResponse;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.openapitools.api.PriceApi;
+import org.openapitools.model.PriceResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
 @RestController
-public class PriceController {
+public class PriceController implements PriceApi {
     private final GetPriceUseCase getPriceUseCase;
     private final PriceMapper priceMapper;
 
@@ -24,14 +22,9 @@ public class PriceController {
         this.priceMapper = priceMapper;
     }
 
-    @GetMapping(value = "/price")
-    public ResponseEntity<PriceResponse> getPrice(
-            @RequestParam(value = "brandId") Long brandId,
-            @RequestParam(value = "productId") Long productId,
-            @RequestParam(value = "appDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime appDate
-    ) {
-        Price price = getPriceUseCase.getPrice(
-                brandId, productId, appDate);
+    @Override
+    public ResponseEntity<org.openapitools.model.PriceResponse> getPrice(Long brandId, Long productId, OffsetDateTime appDate) {
+        Price price = getPriceUseCase.getPrice(brandId, productId, appDate.toLocalDateTime());
 
 
         if (Objects.isNull(price)) {
@@ -42,4 +35,23 @@ public class PriceController {
 
         return ResponseEntity.ok(priceResponse);
     }
+
+//    @GetMapping(value = "/price")
+//    public ResponseEntity<PriceResponse> getPrice(
+//            @RequestParam(value = "brandId") Long brandId,
+//            @RequestParam(value = "productId") Long productId,
+//            @RequestParam(value = "appDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime appDate
+//    ) {
+//        Price price = getPriceUseCase.getPrice(
+//                brandId, productId, appDate);
+//
+//
+//        if (Objects.isNull(price)) {
+//            throw new PriceNotFoundException("No price found for the input data");
+//        }
+//
+//        PriceResponse priceResponse = priceMapper.toPriceResponse(price);
+//
+//        return ResponseEntity.ok(priceResponse);
+//    }
 }

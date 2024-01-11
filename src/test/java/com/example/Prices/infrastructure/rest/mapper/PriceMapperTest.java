@@ -1,11 +1,10 @@
 package com.example.Prices.infrastructure.rest.mapper;
 
-import com.example.Prices.infrastructure.rest.mapper.PriceMapper;
-import com.example.Prices.infrastructure.rest.response.PriceResponse;
 import com.example.Prices.domain.entity.Price;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openapitools.model.PriceResponse;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
@@ -52,7 +51,7 @@ class PriceMapperTest {
         Assertions.assertEquals(price.getPrice(), result.getPrice());
         Assertions.assertEquals(price.getPriceList(), result.getPriceList());
         Assertions.assertEquals(price.getBrandId(), result.getBrandId());
-        Assertions.assertEquals(price.getStartDate(), result.getStartDate());
-        Assertions.assertEquals(price.getEndDate(), result.getEndDate());
+        Assertions.assertEquals(price.getStartDate(), result.getStartDate().toLocalDateTime());
+        Assertions.assertEquals(price.getEndDate(), result.getEndDate().toLocalDateTime());
     }
 }

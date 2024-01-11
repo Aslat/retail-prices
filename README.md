@@ -52,7 +52,7 @@ To run the project we can execute
 ```
 mvn spring-boot:run
 ```
-The documentation of the API is in the file [api-docs.yaml](api-docs.yaml).
+The documentation of the API is in the file [api-docs.yaml](src/main/resources/RetailPricesApi.yaml).
 If we want to see the docs in Swagger, after running the project we can go to http://localhost:8080/swagger-ui/index.html
 
 To test the endpoint, after running the project, we can use [Postman](https://www.postman.com/downloads/) to create a 

@@ -1,10 +1,11 @@
 package com.example.Prices.infrastructure.rest.mapper;
 
 
-import com.example.Prices.infrastructure.rest.response.PriceResponse;
 import com.example.Prices.domain.entity.Price;
+import org.openapitools.model.PriceResponse;
 import org.springframework.stereotype.Component;
 
+import java.time.ZoneOffset;
 import java.util.Objects;
 
 @Component
@@ -17,13 +18,14 @@ public class PriceMapper {
             return null;
         }
 
-        return PriceResponse.builder()
-                .priceList(price.getPriceList())
-                .brandId(price.getBrandId())
-                .endDate(price.getEndDate())
-                .price(price.getPrice())
-                .productId(price.getProductId())
-                .startDate(price.getStartDate())
-                .build();
+        PriceResponse priceResponse = new PriceResponse();
+        priceResponse.priceList(price.getPriceList());
+        priceResponse.brandId(price.getBrandId());
+        priceResponse.endDate(price.getEndDate().atOffset(ZoneOffset.UTC));
+        priceResponse.price(price.getPrice());
+        priceResponse.productId(price.getProductId());
+        priceResponse.startDate(price.getStartDate().atOffset(ZoneOffset.UTC));
+
+        return priceResponse;
     }
 }
