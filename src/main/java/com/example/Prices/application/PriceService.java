@@ -2,14 +2,12 @@ package com.example.Prices.application;
 
 import com.example.Prices.domain.entity.Price;
 import com.example.Prices.domain.repository.PriceRepository;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-@Service
 public class PriceService implements GetPriceUseCase {
 
     private final PriceRepository priceRepository;
