@@ -58,4 +58,4 @@ curl --location 'http://localhost:8080/price?brandId=1&productId=35455&appDate=2
 ```
 
 
-![Postman Screenshot](https://github.com/Aslat/retail-prices/blob/main/Captura%20de%20pantalla%202024-01-11%130206.png)
+![Postman Screenshot](https://github.com/Aslat/retail-prices/blob/2d25da71af101c66c08cc80abd4db074c1d11b32/Captura%20de%20pantalla%202024-01-11%20130206.png)
