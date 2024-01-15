@@ -3,33 +3,33 @@ info:
   title: OpenAPI definition
   version: v0
 servers:
-- url: http://localhost:8080
-  description: Generated server url
+  - url: http://localhost:8080
+    description: Generated server url
 paths:
   /price:
     get:
       tags:
-      - Prices
+        - Prices
       operationId: getPrice
       parameters:
-      - name: brandId
-        in: query
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: productId
-        in: query
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: appDate
-        in: query
-        required: true
-        schema:
-          type: string
-          format: date-time
+        - name: brandId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: productId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: appDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
       responses:
         "200":
           description: OK
@@ -37,6 +37,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PriceResponse'
+        "404":
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionErrorResponse'
+        "400":
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionErrorResponse'
 components:
   schemas:
     PriceResponse:
@@ -60,3 +72,12 @@ components:
         price:
           type: number
           format: double
+    ExceptionErrorResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          example: NOT FOUND
+        message:
+          type: string
+          example: Required request parameter 'brandId' for method parameter type Long is not present
