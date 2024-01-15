@@ -2,7 +2,7 @@ package com.example.Prices.infrastructure.rest;
 
 import com.example.Prices.application.GetPriceUseCase;
 import com.example.Prices.domain.entity.Price;
-import com.example.Prices.infrastructure.rest.exceptionhandler.PriceNotFoundException;
+import com.example.Prices.domain.entity.PriceNotFoundException;
 import com.example.Prices.infrastructure.rest.mapper.PriceMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -61,7 +61,7 @@ class PriceControllerTest {
         final Long productId = 1L;
         final OffsetDateTime appDate = OffsetDateTime.now();
 
-        given(getPriceUseCase.getPrice(brandId, productId, appDate.toLocalDateTime())).willReturn(null);
+        given(getPriceUseCase.getPrice(brandId, productId, appDate.toLocalDateTime())).willThrow(PriceNotFoundException.class);
 
         //WHEN
         assertThrows(PriceNotFoundException.class, () -> priceController.getPrice(brandId, productId , appDate));

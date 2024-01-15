@@ -2,7 +2,11 @@ package com.example.Prices.application;
 
 import com.example.Prices.domain.entity.Price;
 import com.example.Prices.domain.repository.PriceRepository;
+import com.example.Prices.domain.entity.PriceNotFoundException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
@@ -24,26 +29,23 @@ class PriceServiceTest {
     @Mock
     PriceRepository priceRepository;
 
-    @Test
-    public void getPriceWhenReceivingNull(){
-        //WHEN
-        Price result = priceService.getPrice(null, 1L, LocalDateTime.now());
+    public static Stream<Arguments> provideNullParams() {
+        return Stream.of(
+                Arguments.of(null, 1L, LocalDateTime.now()),
+                Arguments.of(1L, null, LocalDateTime.now()),
+                Arguments.of(1L, 1L, null)
+        );
+    }
 
-        //THEN
-        assertNull(result);
-
-        //WHEN
-        result = priceService.getPrice(1L, null, LocalDateTime.now());
-
-        //THEN
-        assertNull(result);
+    @ParameterizedTest
+    @MethodSource("provideNullParams")
+    public void getPriceWhenReceivingNull(Long brandId, Long productId, LocalDateTime appDate){
 
         //WHEN
-        result = priceService.getPrice(1L, 1L, null);
+        assertThrows(PriceNotFoundException.class, () -> priceService.getPrice(brandId, productId, appDate));
 
         //THEN
-        assertNull(result);
-        then(priceRepository).shouldHaveNoInteractions();
+        then(priceRepository).should().findByBrandProductAndDate(brandId, productId, appDate);
     }
 
     @Test
@@ -59,11 +61,9 @@ class PriceServiceTest {
                 .willReturn(priceList);
 
         //WHEN
-        Price result = priceService.getPrice(brandId, productId, appDate);
+        assertThrows(PriceNotFoundException.class, () -> priceService.getPrice(brandId, productId, appDate));
 
         //THEN
-        assertNull(result);
-
         then(priceRepository).should().findByBrandProductAndDate(brandId, productId, appDate);
     }
 
