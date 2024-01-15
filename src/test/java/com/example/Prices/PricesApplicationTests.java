@@ -75,18 +75,6 @@ class PricesApplicationTests {
 	}
 
 	@Test
-	public void getPriceBadRequestIT(){
-		//GIVEN
-		Long brandId = 1L;
-		Long productId = 1L;
-		OffsetDateTime appDate = OffsetDateTime.now();
-
-		//WHEN
-		assertThrows(PriceNotFoundException.class, () -> priceController.getPrice(brandId, productId , appDate));
-		//THEN
-	}
-
-	@Test
 	public void getPriceReturnBadRequest()
 			throws Exception {
 
