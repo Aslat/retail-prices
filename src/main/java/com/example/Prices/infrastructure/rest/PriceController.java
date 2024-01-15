@@ -23,9 +23,8 @@ public class PriceController implements PriceApi {
     }
 
     @Override
-    public ResponseEntity<org.openapitools.model.PriceResponse> getPrice(Long brandId, Long productId, OffsetDateTime appDate) {
+    public ResponseEntity<PriceResponse> getPrice(Long brandId, Long productId, OffsetDateTime appDate) {
         Price price = getPriceUseCase.getPrice(brandId, productId, appDate.toLocalDateTime());
-
 
         if (Objects.isNull(price)) {
             throw new PriceNotFoundException("No price found for the input data");
@@ -35,23 +34,4 @@ public class PriceController implements PriceApi {
 
         return ResponseEntity.ok(priceResponse);
     }
-
-//    @GetMapping(value = "/price")
-//    public ResponseEntity<PriceResponse> getPrice(
-//            @RequestParam(value = "brandId") Long brandId,
-//            @RequestParam(value = "productId") Long productId,
-//            @RequestParam(value = "appDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime appDate
-//    ) {
-//        Price price = getPriceUseCase.getPrice(
-//                brandId, productId, appDate);
-//
-//
-//        if (Objects.isNull(price)) {
-//            throw new PriceNotFoundException("No price found for the input data");
-//        }
-//
-//        PriceResponse priceResponse = priceMapper.toPriceResponse(price);
-//
-//        return ResponseEntity.ok(priceResponse);
-//    }
 }
