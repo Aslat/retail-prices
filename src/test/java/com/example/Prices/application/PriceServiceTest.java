@@ -2,7 +2,7 @@ package com.example.Prices.application;
 
 import com.example.Prices.domain.entity.Price;
 import com.example.Prices.domain.repository.PriceRepository;
-import com.example.Prices.domain.entity.PriceNotFoundException;
+import com.example.Prices.domain.exceptions.PriceNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

@@ -1,6 +1,6 @@
 package com.example.Prices.infrastructure.rest.exceptionhandler;
 
-import com.example.Prices.domain.entity.PriceNotFoundException;
+import com.example.Prices.domain.exceptions.PriceNotFoundException;
 import org.openapitools.model.ExceptionErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

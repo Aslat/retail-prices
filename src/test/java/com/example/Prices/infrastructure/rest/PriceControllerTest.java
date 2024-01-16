@@ -2,7 +2,7 @@ package com.example.Prices.infrastructure.rest;
 
 import com.example.Prices.application.GetPriceUseCase;
 import com.example.Prices.domain.entity.Price;
-import com.example.Prices.domain.entity.PriceNotFoundException;
+import com.example.Prices.domain.exceptions.PriceNotFoundException;
 import com.example.Prices.infrastructure.rest.mapper.PriceMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

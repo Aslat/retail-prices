@@ -1,7 +1,7 @@
 package com.example.Prices;
 
 import com.example.Prices.infrastructure.rest.PriceController;
-import com.example.Prices.domain.entity.PriceNotFoundException;
+import com.example.Prices.domain.exceptions.PriceNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

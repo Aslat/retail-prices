@@ -2,7 +2,7 @@ package com.example.Prices.application;
 
 import com.example.Prices.domain.entity.Price;
 import com.example.Prices.domain.repository.PriceRepository;
-import com.example.Prices.domain.entity.PriceNotFoundException;
+import com.example.Prices.domain.exceptions.PriceNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;

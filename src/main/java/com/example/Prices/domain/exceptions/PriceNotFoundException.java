@@ -1,4 +1,4 @@
-package com.example.Prices.domain.entity;
+package com.example.Prices.domain.exceptions;
 
 import org.springframework.http.HttpStatus;
 
